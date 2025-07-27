@@ -1,9 +1,14 @@
+import { useState } from 'react';
+import Navbar from './components/navbar/index';
+import { SelectedPage } from './modules/types';
+
 function App() {
+  const [selectedPage, setSelectedPage] = useState<SelectedPage>(SelectedPage.Home);
+
   return (
-    <>
-      <h1> this is a template for Vite + Typescript Tailwind css</h1>
-      <p className="color bg-red-600">if this is red tailwind is working</p>
-    </>
+    <div className="App bg-white text-black w-full h-screen font-dmsans">
+      <Navbar selectedPage={selectedPage} setSelectedPage={setSelectedPage} />
+    </div>
   );
 }
 
