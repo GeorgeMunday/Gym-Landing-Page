@@ -1,70 +1,72 @@
-import ActionButton from '@/Buttons/ActionButton';
 import useMediaQuery from '@/hooks/useMediaQuery';
 import { SelectedPage } from '@/modules/types';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/16/solid';
 import { useState } from 'react';
-import logo from '../../assets/Logo (1).png';
+import Logo from '../../assets/Logo (1).png';
+import ActionButton from '../../components/Buttons/ActionButton';
 import Link from './link';
 
 type Props = {
+  isTopOfPage: boolean;
   selectedPage: SelectedPage;
   setSelectedPage: (value: SelectedPage) => void;
 };
 
-const Navbar = ({ selectedPage, setSelectedPage }: Props) => {
+const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
   const flexBetween = 'flex items-center justify-between';
-  const isAboveMediumsScreens = useMediaQuery('(min-width: 1060px)');
   const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false);
+  const isAboveMediumScreens = useMediaQuery('(min-width: 1060px)');
+  const navbarBackground = isTopOfPage ? '' : 'bg-primary-100 drop-shadow';
 
   return (
     <nav>
-      <div className={`${flexBetween} top-0 z-30 w-full py-6`}>
+      <div className={`${navbarBackground} ${flexBetween} fixed top-0 z-30 w-full py-6`}>
         <div className={`${flexBetween} mx-auto w-5/6`}>
-          {/* LEFT SIDE */}
           <div className={`${flexBetween} w-full gap-16`}>
-            <img src={logo} alt="logo" />
-          </div>
+            {/* LEFT SIDE */}
+            <img alt="logo" src={Logo} />
 
-          {/* RIGHT SIDE */}
-          {isAboveMediumsScreens ? (
-            <div className={`${flexBetween} w-full`}>
-              <div className={`${flexBetween} gap-8 text-small`}>
-                <Link page="Home" selectedPage={selectedPage} setSelectedPage={setSelectedPage} />
-                <Link
-                  page="Benefits"
-                  selectedPage={selectedPage}
-                  setSelectedPage={setSelectedPage}
-                />
-                <Link
-                  page="Our Classes"
-                  selectedPage={selectedPage}
-                  setSelectedPage={setSelectedPage}
-                />
-                <Link
-                  page="Contact Us"
-                  selectedPage={selectedPage}
-                  setSelectedPage={setSelectedPage}
-                />
+            {/* RIGHT SIDE */}
+            {isAboveMediumScreens ? (
+              <div className={`${flexBetween} w-full`}>
+                <div className={`${flexBetween} gap-8 text-sm`}>
+                  <Link page="Home" selectedPage={selectedPage} setSelectedPage={setSelectedPage} />
+                  <Link
+                    page="Benefits"
+                    selectedPage={selectedPage}
+                    setSelectedPage={setSelectedPage}
+                  />
+                  <Link
+                    page="Our Classes"
+                    selectedPage={selectedPage}
+                    setSelectedPage={setSelectedPage}
+                  />
+                  <Link
+                    page="Contact Us"
+                    selectedPage={selectedPage}
+                    setSelectedPage={setSelectedPage}
+                  />
+                </div>
+                <div className={`${flexBetween} gap-8`}>
+                  <p>Sign In</p>
+                  <ActionButton setSelectedPage={setSelectedPage}>Become a Member</ActionButton>
+                </div>
               </div>
-              <div className={`${flexBetween} gap-8 text-small`}>
-                <p>Sign In</p>
-                <ActionButton setSelectedPage={setSelectedPage}>Become a Member</ActionButton>
-              </div>
-            </div>
-          ) : (
-            <button
-              aria-label="Open menu"
-              className="rounded-full bg-secondary-500 p-2 text-white"
-              onClick={() => setIsMenuToggled(!isMenuToggled)}
-            >
-              <Bars3Icon className="h-6 w-6 text-white" aria-label="Open menu" />
-            </button>
-          )}
+            ) : (
+              <button
+                aria-label="Open menu"
+                className="rounded-full bg-secondary-500 p-2"
+                onClick={() => setIsMenuToggled(!isMenuToggled)}
+              >
+                <Bars3Icon className="h-6 w-6 text-white" />
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
-      {/*Mobile Menu Modal */}
-      {!isAboveMediumsScreens && isMenuToggled && (
+      {/* MOBILE MENU MODAL */}
+      {!isAboveMediumScreens && isMenuToggled && (
         <div className="fixed right-0 bottom-0 z-40 h-full w-[300px] bg-primary-100 drop-shadow-xl">
           {/* CLOSE ICON */}
           <div className="flex justify-end p-12">
